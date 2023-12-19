@@ -7,6 +7,7 @@ const connectToDatabase = () => {
     user: "root",
     password: "Welcome@123",
   });
+  // console.log("connecteToDATabase",db)
 
   db.connect((err) => {
     if (err) {
@@ -15,18 +16,19 @@ const connectToDatabase = () => {
     }
     console.log("Database connected");
   });
-
   return db;
 };
 
 const executeQuery = (db) => {
-  db.query(`SELECT * FROM users`, (error, result, fields) => {
-    console.log("Query Error:", error);
-    console.log("Query Result:", result);
-    console.log("Query Fields:", fields);
-    db.end(); // Close the database connection after executing the query
+  db.query(`SELECT * FROM users`, (error, result) => {
+    console.log(" Error:", error);
+    console.log(" Result:", result);
+    let response = result;
+    db.end();
+    return response 
   });
 };
+console.log("execute",response)
 
 export const connection = () => {
   const db = connectToDatabase();
