@@ -1,6 +1,11 @@
 import express from "express";
 import sendMail from "./src/controllers/sendemail.js";
-import userRoutes from "./src/routes/Users.js";
+import { connection } from "./src/db/dbConnection.js";
+
+// Call the connection function
+connection();
+
+
 
 const PORT = 8000;
 const app = express();
@@ -10,14 +15,19 @@ app.get("/", (req, res) => {
 });
 
 app.get("/mail", sendMail);
-app.use("/api/users", userRoutes);
+
 const start_Server = async () => {
   try {
+  
+  
+
     app.listen(PORT || 5000, () => {
       console.log(`App is listening at ${PORT}`);
     });
   } catch (error) {
-    console.log("error: from app listening ");
+    console.log("Error from app listening:", error);
   }
 };
+
+
 start_Server();

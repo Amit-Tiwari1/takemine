@@ -1,16 +1,34 @@
-import mysql from "mysql";
+import mysql from "mysql2";
 
-export const connection = mysql.createConnection({
-  host: "localhost",
-  database: "company",
-  user: "root",
-  password: "Nowgray@2023",
-});
+const connectToDatabase = () => {
+  const db = mysql.createConnection({
+    host: "localhost",
+    database: "student",
+    user: "root",
+    password: "Welcome@123",
+  });
 
-connection.connect((err) => {
-  if (err) {
-    console.error("Database connection failed:", err);
-    return;
-  }
-  console.log("Database connected");
-});
+  db.connect((err) => {
+    if (err) {
+      console.error("Database connection failed:", err);
+      return;
+    }
+    console.log("Database connected");
+  });
+
+  return db;
+};
+
+const executeQuery = (db) => {
+  db.query(`SELECT * FROM users`, (error, result, fields) => {
+    console.log("Query Error:", error);
+    console.log("Query Result:", result);
+    console.log("Query Fields:", fields);
+    db.end(); // Close the database connection after executing the query
+  });
+};
+
+export const connection = () => {
+  const db = connectToDatabase();
+  executeQuery(db);
+};
