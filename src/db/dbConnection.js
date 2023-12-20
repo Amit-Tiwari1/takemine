@@ -10,7 +10,7 @@ export const connectToDatabase = () => {
     host: process.env.HOST_NAME,
     database: "stakemind_db",
     user: "root",
-    password: "Nowgray@2023",
+    password: "Welcome@123",
   });
 
   db.connect((err) => {
@@ -24,12 +24,35 @@ export const connectToDatabase = () => {
   return db;
 };
 
-const executeQuery = (db) => {
-  db.query(`SELECT * FROM users`, (error, result) => {
-    console.log(" Error:", error);
-    console.log(" Result:", result);
-    let response = result;
-    db.end();
-    return response;
+export const updateOTP = (db, email, otp) => {
+  db.query(
+    `UPDATE users SET otp = ? WHERE email = ?`,
+    [otp, email],
+    (err, result) => {
+      if (err) {
+        console.error("Error updating OTP:", err);
+        return;
+      }
+      console.log("OTP updated successfully");
+    }
+  );
+};
+
+export const getOTP = (db, email) => {
+  return new Promise((resolve, reject) => {
+    db.query(`SELECT otp FROM users WHERE email = ?`, [email], (err, result) => {
+      if (err) {
+        console.error("Error retrieving OTP:", err);
+        reject(err);
+        return;
+      }
+
+      if (result && result.length > 0) {
+        const otp = result[0].otp;
+        resolve(otp);
+      } else {
+        resolve(null);
+      }
+    });
   });
 };

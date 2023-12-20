@@ -16,6 +16,7 @@ export const sendOTPmail = async (email, OTP, full_name) => {
         user: "imamitng@gmail.com",
         pass: "stlfwrzawahalahj",
       },
+      
     });
 
     const content = `
