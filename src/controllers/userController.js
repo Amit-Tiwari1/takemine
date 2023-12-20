@@ -2,6 +2,8 @@ import { validationResult } from "express-validator"; // params validation
 import { connectToDatabase } from "../db/dbConnection.js";
 import { insertQuery } from "../utils/dynamicQueries.js";
 import moment from "moment";
+import { sendOTPmail } from "../utils/sendMail.js";
+import { generateOTP } from "../utils/otpfication.js";
 
 const db = connectToDatabase();
 export const register = (req, res) => {
@@ -45,6 +47,17 @@ export const register = (req, res) => {
               error: err,
             });
           }
+          const otp = generateOTP();
+          console.log("otp", otp);
+          if (otp) {
+            try {
+              sendOTPmail(fields.email, otp, fields.full_Name);
+              console.log("otp send");
+            } catch (error) {
+              console.log(error);
+            }
+          }
+
           return res.status(200).send({
             msg: "User registered successfully",
           });
