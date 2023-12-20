@@ -1,13 +1,17 @@
 import mysql from "mysql2";
+import dotenv from "dotenv";
 
-const connectToDatabase = () => {
+dotenv.config({
+  path: "./env",
+});
+
+export const connectToDatabase = () => {
   const db = mysql.createConnection({
-    host: "localhost",
-    database: "student",
+    host: process.env.HOST_NAME,
+    database: "stakemind_db",
     user: "root",
-    password: "Welcome@123",
+    password: "Nowgray@2023",
   });
-  // console.log("connecteToDATabase",db)
 
   db.connect((err) => {
     if (err) {
@@ -16,6 +20,7 @@ const connectToDatabase = () => {
     }
     console.log("Database connected");
   });
+
   return db;
 };
 
@@ -25,12 +30,6 @@ const executeQuery = (db) => {
     console.log(" Result:", result);
     let response = result;
     db.end();
-    return response 
+    return response;
   });
-};
-console.log("execute",response)
-
-export const connection = () => {
-  const db = connectToDatabase();
-  executeQuery(db);
 };
