@@ -1,8 +1,10 @@
 import express from "express";
 import { signUpValidation } from "../utils/signUpValidation.js";
-import * as userController from "../controllers/userController.js"; // Import all exports as a single object
+import * as userController from "../controllers/userController.js";
+
 const router = express.Router();
 
 router.post("/register", signUpValidation, userController.register);
+router.post("/verify", userController.Is_Authenticated);
 
 export default router;

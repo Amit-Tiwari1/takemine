@@ -11,7 +11,7 @@ export const sendOTPmail = async (email, OTP, full_name) => {
       host: "smtp.gmail.com",
       port: 587,
       secure: false,
-      requireTLS: true, // Fix the typo here
+      requireTLS: true,
       auth: {
         user: "imamitng@gmail.com",
         pass: "stlfwrzawahalahj",
@@ -31,7 +31,7 @@ export const sendOTPmail = async (email, OTP, full_name) => {
     `;
 
     const mailOptions = {
-      from: "imamitng@gmail.com", // Replace with the sender's email address
+      from: "imamitng@gmail.com",
       to: email,
       subject: "OTP verification",
       html: content,
@@ -41,7 +41,7 @@ export const sendOTPmail = async (email, OTP, full_name) => {
       if (error) {
         console.log(error);
       } else {
-        console.log("Mail sent successfully!", information.response);
+        console.log("Mail sent successfully! on ", email);
       }
     });
   } catch (error) {

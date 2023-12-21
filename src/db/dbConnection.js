@@ -1,16 +1,14 @@
 import mysql from "mysql2";
 import dotenv from "dotenv";
 
-dotenv.config({
-  path: "./env",
-});
+dotenv.config();
 
 export const connectToDatabase = () => {
   const db = mysql.createConnection({
     host: process.env.HOST_NAME,
-    database: "stakemind_db",
-    user: "root",
-    password: "Nowgray@2023",
+    database: process.env.DATABASE_NAME,
+    user: process.env.USER_NAME,
+    password: process.env.DATABASE_PASSWORD,
   });
 
   db.connect((err) => {
@@ -24,7 +22,7 @@ export const connectToDatabase = () => {
   return db;
 };
 
-const executeQuery = (db) => {
+export const executeQuery = (db) => {
   db.query(`SELECT * FROM users`, (error, result) => {
     console.log(" Error:", error);
     console.log(" Result:", result);
