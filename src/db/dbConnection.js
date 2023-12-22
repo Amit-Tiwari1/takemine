@@ -21,13 +21,3 @@ export const connectToDatabase = () => {
 
   return db;
 };
-
-export const executeQuery = (db) => {
-  db.query(`SELECT * FROM users`, (error, result) => {
-    console.log(" Error:", error);
-    console.log(" Result:", result);
-    let response = result;
-    db.end();
-    return response;
-  });
-};
