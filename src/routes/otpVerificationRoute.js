@@ -1,19 +1,23 @@
-// otpVerificationRoute.js
-
 import express from "express";
-import { verifyOTP } from "../utils/otpVerification.js"; // Import the OTP verification function
+import { verifyOTP } from "../utils/otpVerification.js";
+import { Is_Authenticated } from "../controllers/userController.js";
 
 const otpVerificationRouter = express.Router();
 
-otpVerificationRouter.post("/verify", (req, res) => {
-  const { userOTP, expectedOTP } = req.body;
+otpVerificationRouter.post("/:userid/:expectedOTP", async (req, res) => {
+  try {
+    const { userid, expectedOTP } = req.params;
+    console.log("userid", userid);
+    console.log("expectedOTP", expectedOTP);
 
-  // Verify OTP
-  if (!verifyOTP(userOTP, expectedOTP)) {
-    return res.status(400).json({ msg: "Invalid OTP" });
+    await Is_Authenticated(userid, expectedOTP, res);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      msg: "Error in OTP verification",
+      error: error,
+    });
   }
-
-  return res.status(200).json({ msg: "OTP verified successfully" });
 });
 
 export default otpVerificationRouter;
